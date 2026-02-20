@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymBuilder Pro · Entrenador personal</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* (Mismo CSS que antes, lo mantengo igual pero por espacio lo resumo) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #f4f6fa;
+            color: #1e293b;
+            padding: 1.5rem;
+        }
+
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            border-radius: 2rem;
+            padding: 1.8rem 2.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+        }
+
+        .coach-info h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .coach-info h1 i {
+            color: #fbbf24;
+            margin-right: 12px;
+        }
+
+        .coach-info .badge {
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .stats-header {
+            display: flex;
+            gap: 2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .search-section {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-bar {
+            flex: 2;
+            min-width: 260px;
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            border-radius: 3rem;
+            padding: 0.6rem 1.5rem;
+        }
+
+        .search-bar i {
+            color: #64748b;
+            font-size: 1.2rem;
+            margin-right: 12px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 1rem;
+            padding: 0.6rem 0;
+            outline: none;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .filter-btn.active {
+            background: #0f172a;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 2.2fr;
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .exercise-library {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 1.4rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            height: fit-content;
+            max-height: 78vh;
+            overflow-y: auto;
+        }
+
+        .library-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .library-header h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .muscle-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #e9eef3;
+            padding-bottom: 1.2rem;
+        }
+
+        .muscle-tag {
+            background: #f8fafc;
+            border: 1px solid #dde3e9;
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .muscle-tag:hover, .muscle-tag.selected {
+            background: #0f172a;
+            color: white;
+            border-color: #0f172a;
+        }
+
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0.8rem;
+            background: #f9fcff;
+            border-radius: 1.2rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid transparent;
+            transition: 0.15s;
+            cursor: pointer;
+        }
+
+        .exercise-item:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .exercise-item.selected {
+            background: #e0f2fe;
+            border-color: #0284c7;
+        }
+
+        .exercise-icon {
+            width: 44px;
+            height: 44px;
+            background: #d9e2ef;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 14px;
+            color: #0f172a;
+            font-size: 1.3rem;
+        }
+
+        .exercise-detail {
+            flex: 1;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: #64748b;
+            letter-spacing: 0.3px;
+        }
+
+        .exercise-meta i {
+            margin-right: 3px;
+        }
+
+        .routines-panel {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 1.8rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+
+        .routines-tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.3rem 0.2rem;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            color: #0f172a;
+            border-bottom-color: #fbbf24;
+        }
+
+        .routine-card {
+            background: #fafdff;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .routine-card:hover {
+            border-color: #b9c7da;
+            background: white;
+        }
+
+        .routine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .routine-header h3 {
+            font-size: 1.4rem;
+            font-weight: 650;
+            letter-spacing: -0.3px;
+        }
+
+        .day-badge {
+            background: #e6edf5;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e2f44;
+        }
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin: 1rem 0 0.6rem;
+        }
+
+        .routine-exercise-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #ffffff;
+            padding: 0.6rem 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            border: 1px solid #e9edf2;
+        }
+
+        .sets-reps {
+            background: #eef3f8;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .btn-add-routine {
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            padding: 1rem 1.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .btn-add-routine:hover {
+            background: #1e2b41;
+        }
+
+        .database-section {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .db-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .db-item {
+            background: #f8fafc;
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #dee6ef;
+        }
+
+        .db-icon {
+            background: #0f172a;
+            color: #fbbf24;
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .db-content p {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .db-content small {
+            color: #475569;
+            font-size: 0.7rem;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0f172a;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1e2b41;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .student-tag {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .student-tag.selected {
+            background: #0f172a;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0f172a;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #10b981;
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #5f6c80;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .exercise-library {
+                max-height: 50vh;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header-card {
+                padding: 1.5rem;
+            }
+            
+            .stats-header {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .search-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Cabecera entrenador -->
+        <header class="header-card">
+            <div class="coach-info">
+                <h1><i class="fas fa-dumbbell"></i>GymBuilder PRO</h1>
+                <div class="badge"><i class="fas fa-user-check"></i> Entrenador: Álex Moreno · Certificado Nivel 3</div>
+            </div>
+            <div class="stats-header">
+                <div class="stat-item"><span class="stat-number" id="total-routines">0</span><br>rutinas</div>
+                <div class="stat-item"><span class="stat-number" id="total-exercises">0</span><br>ejercicios</div>
+                <div class="stat-item"><span class="stat-number" id="total-students">0</span><br>alumnos</div>
+            </div>
+        </header>
+
+        <!-- Buscador y filtro rápido -->
+        <div class="search-section">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Buscar ejercicio, músculo o equipo...">
+            </div>
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all"><i class="fas fa-fire"></i> Todos</button>
+                <button class="filter-btn" data-filter="favorites"><i class="fas fa-heartbeat"></i> Favoritos</button>
+                <button class="filter-btn" data-filter="recent"><i class="fas fa-clock"></i> Últimos usados</button>
+            </div>
+        </div>
+
+        <!-- Botones de acción principales -->
+        <div class="action-buttons">
+            <button class="btn-primary" id="add-exercise-btn"><i class="fas fa-plus-circle"></i> Nuevo ejercicio</button>
+            <button class="btn-success" id="export-btn"><i class="fas fa-download"></i> Exportar rutinas</button>
+            <button class="btn-secondary" id="import-btn"><i class="fas fa-upload"></i> Importar rutinas</button>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+        </div>
+
+        <!-- Área principal de trabajo -->
+        <div class="dashboard-grid">
+            <!-- Columna izquierda: biblioteca de ejercicios -->
+            <div class="exercise-library">
+                <div class="library-header">
+                    <h2><i class="fas fa-database" style="color:#fbbf24;"></i> Ejercicios</h2>
+                    <span style="background:#eef2f6; padding:0.2rem 1rem; border-radius:40px;" id="exercise-count">0</span>
+                </div>
+                <div class="muscle-filter" id="muscle-filters">
+                    <span class="muscle-tag selected" data-muscle="all">Todos</span>
+                    <span class="muscle-tag" data-muscle="Pecho">Pecho</span>
+                    <span class="muscle-tag" data-muscle="Espalda">Espalda</span>
+                    <span class="muscle-tag" data-muscle="Piernas">Piernas</span>
+                    <span class="muscle-tag" data-muscle="Hombros">Hombros</span>
+                    <span class="muscle-tag" data-muscle="Bíceps">Bíceps</span>
+                    <span class="muscle-tag" data-muscle="Tríceps">Tríceps</span>
+                    <span class="muscle-tag" data-muscle="Core">Core</span>
+                </div>
+                <!-- lista de ejercicios (se genera dinámicamente) -->
+                <div id="exercises-list"></div>
+            </div>
+
+            <!-- Columna derecha: rutinas organizadas -->
+            <div class="routines-panel">
+                <div class="routines-tabs">
+                    <button class="tab-btn active" data-tab="my-routines">Mis rutinas</button>
+                    <button class="tab-btn" data-tab="templates">Plantillas</button>
+                    <button class="tab-btn" data-tab="students">Alumnos</button>
+                </div>
+
+                <!-- Contenedor de rutinas -->
+                <div id="routines-container"></div>
+
+                <button class="btn-add-routine" id="create-routine-btn"><i class="fas fa-plus-circle"></i> Crear nueva rutina</button>
+            </div>
+        </div>
+
+        <!-- Sección completa base de datos -->
+        <div class="database-section">
+            <div class="section-title">
+                <i class="fas fa-layer-group" style="background:#0f172a; color:#fbbf24; padding:0.7rem; border-radius: 16px;"></i>
+                <h2>Enciclopedia de ejercicios</h2>
+                <span style="margin-left:auto; background:#f1f5f9; padding:0.4rem 1.2rem; border-radius:40px;" id="db-total">organizado por grupos</span>
+            </div>
+            <div class="db-grid" id="db-grid-container"></div>
+            <div style="margin-top:2rem; display:flex; gap:1.5rem; flex-wrap:wrap; background:#f0f4fa; border-radius:2rem; padding:1.5rem;">
+                <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-check-circle" style="color:#0f172a;"></i> <strong>Tip del entrenador:</strong> Crea tus propios ejercicios personalizados</div>
+                <div><i class="fas fa-dumbbell"></i> <span id="equipment-count">0</span> equipos diferentes</div>
+                <div><i class="fas fa-users"></i> <span id="active-students">0</span> alumnos activos</div>
+            </div>
+        </div>
+
+        <footer>
+            <i class="fas fa-crown" style="color:#fbbf24;"></i> GymBuilder Pro · herramienta completa para el entrenador personal · datos guardados automáticamente<br>
+            <span style="opacity:0.6;">iconos por FontAwesome · v2.0 con localStorage</span>
+        </footer>
+    </div>
+
+    <!-- Modal para añadir ejercicio a rutina -->
+    <div class="modal" id="add-exercise-modal">
+        <div class="modal-content">
+            <h3>Añadir ejercicio a rutina</h3>
+            <p id="modal-exercise-name" style="font-weight: 600; margin-bottom: 1rem;"></p>
+            
+            <div class="form-group">
+                <label>Seleccionar rutina:</label>
+                <select id="routine-select" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Series:</label>
+                <input type="number" id="sets" min="1" value="3">
+            </div>
+
+            <div class="form-group">
+                <label>Repeticiones:</label>
+                <input type="text" id="reps" placeholder="Ej: 10-12, fallo, 45&quot;" value="10-12">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="modal-cancel">Cancelar</button>
+                <button class="btn-primary" id="modal-confirm">Añadir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo ejercicio -->
+    <div class="modal" id="new-exercise-modal">
+        <div class="modal-content">
+            <h3>Crear nuevo ejercicio</h3>
+            
+            <div class="form-group">
+                <label>Nombre del ejercicio:</label>
+                <input type="text" id="new-exercise-name" placeholder="Ej: Press banca inclinado">
+            </div>
+
+            <div class="form-group">
+                <label>Grupo muscular:</label>
+                <select id="new-exercise-muscle">
+                    <option value="Pecho">Pecho</option>
+                    <option value="Espalda">Espalda</option>
+                    <option value="Piernas">Piernas</option>
+                    <option value="Hombros">Hombros</option>
+                    <option value="Bíceps">Bíceps</option>
+                    <option value="Tríceps">Tríceps</option>
+                    <option value="Core">Core</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Equipo necesario:</label>
+                <input type="text" id="new-exercise-equipment" placeholder="Ej: barra, mancuerna, máquina...">
+            </div>
+
+            <div class="form-group">
+                <label>Descripción corta (opcional):</label>
+                <textarea id="new-exercise-desc" rows="2" placeholder="Consejos, técnica..."></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="new-exercise-cancel">Cancelar</button>
+                <button class="btn-primary" id="new-exercise-confirm">Crear ejercicio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para asignar alumnos -->
+    <div class="modal" id="assign-students-modal">
+        <div class="modal-content">
+            <h3>Asignar alumnos a rutina</h3>
+            <p id="assign-routine-name" style="font-weight: 600; margin-bottom: 1rem;"></p>
+            
+            <div class="form-group">
+                <label>Alumnos disponibles:</label>
+                <div id="students-container"></div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="assign-cancel">Cancelar</button>
+                <button class="btn-primary" id="assign-confirm">Guardar asignación</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== DATOS INICIALES ====================
+        let exercisesDB = [
+            { id: 1, name: "Press banca plano", muscle: "Pecho", equipment: "barra", icon: "fa-arrow-up", favorite: false, lastUsed: "2024-01-15", description: "Ejercicio básico de pecho" },
+            { id: 2, name: "Jalón al pecho", muscle: "Espalda", equipment: "polea", icon: "fa-arrow-down", favorite: true, lastUsed: "2024-01-14", description: "Para dorsal ancho" },
+            { id: 3, name: "Sentadilla trasera", muscle: "Piernas", equipment: "barra", icon: "fa-rotate-left", favorite: false, lastUsed: "2024-01-13", description: "Mantén la espalda recta" },
+            { id: 4, name: "Curl bíceps mancuernas", muscle: "Bíceps", equipment: "mancuerna", icon: "fa-hand", favorite: true, lastUsed: "2024-01-12", description: "Sin balanceo" },
+            { id: 5, name: "Press militar", muscle: "Hombros", equipment: "barra", icon: "fa-hand-back-fist", favorite: false, lastUsed: "2024-01-11", description: "Con barra o mancuernas" },
+            { id: 6, name: "Fondos en paralelas", muscle: "Tríceps", equipment: "paralelas", icon: "fa-cable-car", favorite: false, lastUsed: "2024-01-10", description: "Para tríceps y pecho" },
+            { id: 7, name: "Peso muerto", muscle: "Espalda", equipment: "barra", icon: "fa-bolt", favorite: true, lastUsed: "2024-01-09", description: "Cadena posterior" },
+            { id: 8, name: "Plancha abdominal", muscle: "Core", equipment: "peso corporal", icon: "fa-fire", favorite: false, lastUsed: "2024-01-08", description: "Aguanta 45 segundos" },
+            { id: 9, name: "Zancadas con mancuernas", muscle: "Piernas", equipment: "mancuerna", icon: "fa-person-walking", favorite: false, lastUsed: "2024-01-07", description: "Alterna piernas" },
+            { id: 10, name: "Aperturas en máquina", muscle: "Pecho", equipment: "máquina", icon: "fa-dumbbell", favorite: true, lastUsed: "2024-01-06", description: "Para pectoral" }
+        ];
+
+        let routines = [
+            {
+                id: 1,
+                name: "Push (A)",
+                day: "Lunes / Jueves",
+                students: [1, 2],
+                exercises: [
+                    { id: 1, name: "Press banca plano", sets: 4, reps: "10" },
+                    { id: 5, name: "Press militar", sets: 3, reps: "12" },
+                    { id: 6, name: "Fondos en paralelas", sets: 3, reps: "fallo" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Pull (B)",
+                day: "Martes / Viernes",
+                students: [1, 3],
+                exercises: [
+                    { id: 2, name: "Jalón al pecho", sets: 4, reps: "10" },
+                    { id: 7, name: "Peso muerto", sets: 4, reps: "8" },
+                    { id: 4, name: "Curl bíceps mancuernas", sets: 3, reps: "12" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Piernas + Core",
+                day: "Miércoles / Sábado",
+                students: [2, 3],
+                exercises: [
+                    { id: 3, name: "Sentadilla trasera", sets: 5, reps: "5" },
+                    { id: 9, name: "Zancadas con mancuernas", sets: 3, reps: "10 c/p" },
+                    { id: 8, name: "Plancha abdominal", sets: 3, reps: "45\"" }
+                ]
+            }
+        ];
+
+        let students = [
+            { id: 1, name: "Carlos Pérez", active: true },
+            { id: 2, name: "Ana García", active: true },
+            { id: 3, name: "Miguel Rodríguez", active: true },
+            { id: 4, name: "Laura Martínez", active: false }
+        ];
+
+        // ==================== ESTADO DE LA APP ====================
+        let currentFilter = "all";
+        let currentMuscle = "all";
+        let searchTerm = "";
+        let selectedExercise = null;
+        let selectedRoutineForAssign = null;
+        let currentTab = "my-routines";
+
+        // ==================== FUNCIONES DE LOCALSTORAGE ====================
+        function loadFromStorage() {
+            const savedExercises = localStorage.getItem('gymbuilder_exercises');
+            if (savedExercises) {
+                exercisesDB = JSON.parse(savedExercises);
+            }
+            
+            const savedRoutines = localStorage.getItem('gymbuilder_routines');
+            if (savedRoutines) {
+                routines = JSON.parse(savedRoutines);
+            }
+            
+            const savedStudents = localStorage.getItem('gymbuilder_students');
+            if (savedStudents) {
+                students = JSON.parse(savedStudents);
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('gymbuilder_exercises', JSON.stringify(exercisesDB));
+            localStorage.setItem('gymbuilder_routines', JSON.stringify(routines));
+            localStorage.setItem('gymbuilder_students', JSON.stringify(students));
+            updateStats();
+        }
+
+        // ==================== FUNCIONES DE NOTIFICACIÓN ====================
+        function showNotification(message, type = "success") {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ==================== FUNCIONES DE FILTRADO ====================
+        function filterExercises() {
+            return exercisesDB.filter(ex => {
+                const matchesSearch = searchTerm === "" || 
+                    ex.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    ex.muscle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    ex.equipment.toLowerCase().includes(searchTerm.toLowerCase());
+                
+                const matchesMuscle = currentMuscle === "all" || ex.muscle === currentMuscle;
+                
+                let matchesFilter = true;
+                if (currentFilter === "favorites") {
+                    matchesFilter = ex.favorite;
+                } else if (currentFilter === "recent") {
+                    const daysDiff = (new Date() - new Date(ex.lastUsed)) / (1000 * 60 * 60 * 24);
+                    matchesFilter = daysDiff <= 5;
+                }
+                
+                return matchesSearch && matchesMuscle && matchesFilter;
+            });
+        }
+
+        // ==================== RENDERIZADO ====================
+        function renderExercises() {
+            const filtered = filterExercises();
+            const exercisesList = document.getElementById('exercises-list');
+            
+            exercisesList.innerHTML = filtered.map(ex => `
+                <div class="exercise-item ${selectedExercise?.id === ex.id ? 'selected' : ''}" data-exercise-id="${ex.id}">
+                    <div class="exercise-icon"><i class="fas ${ex.icon || 'fa-dumbbell'}"></i></div>
+                    <div class="exercise-detail">
+                        <div class="exercise-name">
+                            ${ex.name} 
+                            ${ex.favorite ? '<i class="fas fa-star" style="color: #fbbf24;"></i>' : ''}
+                        </div>
+                        <div class="exercise-meta">
+                            <span><i class="fas fa-map-pin"></i> ${ex.muscle}</span>
+                            <span><i class="fas fa-tag"></i> ${ex.equipment}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('exercise-count').textContent = `${filtered.length} ejercicios`;
+            
+            // Event listeners
+            document.querySelectorAll('.exercise-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const id = parseInt(item.dataset.exerciseId);
+                    selectedExercise = exercisesDB.find(ex => ex.id === id);
+                    
+                    document.querySelectorAll('.exercise-item').forEach(el => el.classList.remove('selected'));
+                    item.classList.add('selected');
+                    
+                    openAddToRoutineModal(selectedExercise);
+                });
+            });
+        }
+
+        function renderRoutines() {
+            let routinesToShow = [];
+            
+            if (currentTab === "my-routines") {
+                routinesToShow = routines;
+            } else if (currentTab === "templates") {
+                routinesToShow = routines.slice(0, 2);
+            } else if (currentTab === "students") {
+                // Mostrar rutinas con alumnos asignados
+                routinesToShow = routines.filter(r => r.students && r.students.length > 0);
+            }
+            
+            const container = document.getElementById('routines-container');
+            container.innerHTML = routinesToShow.map(routine => {
+                const studentNames = routine.students 
+                    ? routine.students.map(id => students.find(s => s.id === id)?.name || "Desconocido").join(', ')
+                    : "Sin alumnos";
+                
+                return `
+                <div class="routine-card" data-routine-id="${routine.id}">
+                    <div class="routine-header">
+                        <h3><i class="fas fa-calendar-alt" style="color:#f59e0b;"></i> ${routine.name}</h3>
+                        <span class="day-badge"><i class="far fa-clock"></i> ${routine.day}</span>
+                    </div>
+                    <div class="exercise-list">
+                        ${routine.exercises.map(ex => `
+                            <div class="routine-exercise-row">
+                                <i class="fas fa-check-circle" style="color:#22c55e;"></i> ${ex.name}
+                                <span class="sets-reps">${ex.sets}x${ex.reps}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="display:flex; justify-content: space-between; margin-top:1rem;">
+                        <div style="display:flex; gap:1rem; font-size:0.85rem; color:#4b6584;">
+                            <span><i class="far fa-user"></i> ${routine.students?.length || 0} alumnos</span>
+                        </div>
+                        <button class="btn-secondary" style="padding:0.3rem 1rem;" onclick="openAssignStudentsModal(${routine.id})">
+                            <i class="fas fa-user-plus"></i> Asignar
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+            
+            updateStats();
+        }
+
+        function renderDatabaseGrid() {
+            const muscleGroups = {};
+            exercisesDB.forEach(ex => {
+                muscleGroups[ex.muscle] = (muscleGroups[ex.muscle] || 0) + 1;
+            });
+            
+            const icons = {
+                "Pecho": "fa-heart",
+                "Espalda": "fa-robot",
+                "Piernas": "fa-person-running",
+                "Hombros": "fa-hand-peace",
+                "Bíceps": "fa-hand-fist",
+                "Tríceps": "fa-hand-back-fist",
+                "Core": "fa-khanda"
+            };
+            
+            const dbGrid = document.getElementById('db-grid-container');
+            dbGrid.innerHTML = Object.entries(muscleGroups).map(([muscle, count]) => `
+                <div class="db-item">
+                    <div class="db-icon"><i class="fas ${icons[muscle] || 'fa-dumbbell'}"></i></div>
+                    <div class="db-content">
+                        <p>${muscle} (${count})</p>
+                        <small>${getExercisesByMuscle(muscle)}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getExercisesByMuscle(muscle) {
+            const exercises = exercisesDB.filter(ex => ex.muscle === muscle).map(ex => ex.name.split(' ')[0]);
+            return exercises.slice(0, 3).join(', ') + (exercises.length > 3 ? '...' : '');
+        }
+
+        function updateStats() {
+            document.getElementById('total-routines').textContent = routines.length;
+            document.getElementById('total-exercises').textContent = exercisesDB.length;
+            document.getElementById('total-students').textContent = students.filter(s => s.active).length;
+            
+            // Equipos únicos
+            const uniqueEquipment = new Set(exercisesDB.map(ex => ex.equipment)).size;
+            document.getElementById('equipment-count').textContent = uniqueEquipment;
+            
+            // Alumnos activos
+            document.getElementById('active-students').textContent = students.filter(s => s.active).length;
+        }
+
+        // ==================== MODALES ====================
+        function openAddToRoutineModal(exercise) {
+            if (!exercise) return;
+            
+            document.getElementById('modal-exercise-name').textContent = exercise.name;
+            
+            const select = document.getElementById('routine-select');
+            select.innerHTML = '<option value="">Selecciona una rutina</option>' +
+                routines.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+            
+            document.getElementById('add-exercise-modal').classList.add('active');
+        }
+
+        function openAssignStudentsModal(routineId) {
+            const routine = routines.find(r => r.id === routineId);
+            if (!routine) return;
+            
+            selectedRoutineForAssign = routine;
+            document.getElementById('assign-routine-name').textContent = routine.name;
+            
+            const container = document.getElementById('students-container');
+            container.innerHTML = students.map(student => `
+                <span class="student-tag ${routine.students?.includes(student.id) ? 'selected' : ''}" 
+                      data-student-id="${student.id}">
+                    ${student.name}
+                </span>
+            `).join('');
+            
+            // Event listeners para los tags
+            document.querySelectorAll('.student-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    tag.classList.toggle('selected');
+                });
+            });
+            
+            document.getElementById('assign-students-modal').classList.add('active');
+        }
+
+        // ==================== FUNCIONES PRINCIPALES ====================
+        function addExerciseToRoutine() {
+            const routineId = parseInt(document.getElementById('routine-select').value);
+            const sets = document.getElementById('sets').value;
+            const reps = document.getElementById('reps').value;
+            
+            if (!routineId) {
+                showNotification('Selecciona una rutina', 'error');
+                return;
+            }
+            
+            if (!sets || !reps) {
+                showNotification('Completa series y repeticiones', 'error');
+                return;
+            }
+            
+            const routine = routines.find(r => r.id === routineId);
+            if (routine) {
+                routine.exercises.push({
+                    id: selectedExercise.id,
+                    name: selectedExercise.name,
+                    sets: parseInt(sets),
+                    reps: reps
+                });
+                
+                // Actualizar lastUsed
+                selectedExercise.lastUsed = new Date().toISOString().split('T')[0];
+                
+                renderRoutines();
+                renderExercises();
+                saveToStorage();
+                
+                showNotification(`Ejercicio añadido a ${routine.name}`);
+                document.getElementById('add-exercise-modal').classList.remove('active');
+            }
+        }
+
+        function createNewExercise() {
+            const name = document.getElementById('new-exercise-name').value;
+            const muscle = document.getElementById('new-exercise-muscle').value;
+            const equipment = document.getElementById('new-exercise-equipment').value;
+            const desc = document.getElementById('new-exercise-desc').value;
+            
+            if (!name || !muscle || !equipment) {
+                showNotification('Completa todos los campos requeridos', 'error');
+                return;
+            }
+            
+            const newExercise = {
+                id: exercisesDB.length + 1,
+                name: name,
+                muscle: muscle,
+                equipment: equipment,
+                icon: "fa-dumbbell",
+                favorite: false,
+                lastUsed: new Date().toISOString().split('T')[0],
+                description: desc || "Ejercicio personalizado"
+            };
+            
+            exercisesDB.push(newExercise);
+            renderExercises();
+            renderDatabaseGrid();
+            saveToStorage();
+            
+            showNotification('Ejercicio creado correctamente');
+            document.getElementById('new-exercise-modal').classList.remove('active');
+            
+            // Limpiar formulario
+            document.getElementById('new-exercise-name').value = '';
+            document.getElementById('new-exercise-equipment').value = '';
+            document.getElementById('new-exercise-desc').value = '';
+        }
+
+        function saveStudentAssignments() {
+            if (!selectedRoutineForAssign) return;
+            
+            const selectedTags = document.querySelectorAll('.student-tag.selected');
+            const studentIds = Array.from(selectedTags).map(tag => parseInt(tag.dataset.studentId));
+            
+            selectedRoutineForAssign.students = studentIds;
+            
+            renderRoutines();
+            saveToStorage();
+            
+            showNotification('Alumnos asignados correctamente');
+            document.getElementById('assign-students-modal').classList.remove('active');
+        }
+
+        // ==================== EXPORTAR/IMPORTAR ====================
+        function exportData() {
+            const data = {
+                exercises: exercisesDB,
+                routines: routines,
+                students: students,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gymbuilder_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            showNotification('Datos exportados correctamente');
+        }
+
+        function importData(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (data.exercises) exercisesDB = data.exercises;
+                    if (data.routines) routines = data.routines;
+                    if (data.students) students = data.students;
+                    
+                    renderExercises();
+                    renderRoutines();
+                    renderDatabaseGrid();
+                    saveToStorage();
+                    
+                    showNotification('Datos importados correctamente');
+                } catch (error) {
+                    showNotification('Error al importar el archivo', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar datos
+            loadFromStorage();
+            
+            // Renderizar todo
+            renderExercises();
+            renderRoutines();
+            renderDatabaseGrid();
+            
+            // Búsqueda
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchTerm = e.target.value;
+                renderExercises();
+            });
+
+            // Filtros de músculo
+            document.querySelectorAll('.muscle-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    document.querySelectorAll('.muscle-tag').forEach(t => t.classList.remove('selected'));
+                    tag.classList.add('selected');
+                    currentMuscle = tag.dataset.muscle;
+                    renderExercises();
+                });
+            });
+
+            // Filtros rápidos
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderExercises();
+                });
+            });
+
+            // Tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTab = btn.dataset.tab;
+                    renderRoutines();
+                });
+            });
+
+            // Botones principales
+            document.getElementById('create-routine-btn').addEventListener('click', () => {
+                const newRoutine = {
+                    id: routines.length + 1,
+                    name: `Rutina ${routines.length + 1}`,
+                    day: "Por definir",
+                    students: [],
+                    exercises: []
+                };
+                routines.push(newRoutine);
+                renderRoutines();
+                saveToStorage();
+                showNotification('Nueva rutina creada');
+            });
+
+            document.getElementById('add-exercise-btn').addEventListener('click', () => {
+                document.getElementById('new-exercise-modal').classList.add('active');
+            });
+
+            document.getElementById('export-btn').addEventListener('click', exportData);
+            
+            document.getElementById('import-btn').addEventListener('click', () => {
+                document.getElementById('import-file').click();
+            });
+
+            document.getElementById('import-file').addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    importData(e.target.files[0]);
+                }
+            });
+
+            // Modales - Cancelar
+            document.getElementById('modal-cancel').addEventListener('click', () => {
+                document.getElementById('add-exercise-modal').classList.remove('active');
+            });
+
+            document.getElementById('new-exercise-cancel').addEventListener('click', () => {
+                document.getElementById('new-exercise-modal').classList.remove('active');
+            });
+
+            document.getElementById('assign-cancel').addEventListener('click', () => {
+                document.getElementById('assign-students-modal').classList.remove('active');
+            });
+
+            // Modales - Confirmar
+            document.getElementById('modal-confirm').addEventListener('click', addExerciseToRoutine);
+            
+            document.getElementById('new-exercise-confirm').addEventListener('click', createNewExercise);
+            
+            document.getElementById('assign-confirm').addEventListener('click', saveStudentAssignments);
+
+            // Cerrar modales al hacer clic fuera
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.remove('active');
+                }
+            });
+
+            // Hacer funciones globales para los onclick
+            window.openAssignStudentsModal = openAssignStudentsModal;
+        });
+    </script>
+</body>
+</html>

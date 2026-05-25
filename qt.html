@@ -518,6 +518,31 @@
             pointer-events: none;
         }
 
+        .plan-btn-link {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(123,63,160,0.25), rgba(62,230,57,0.1));
+            border: 1px solid rgba(62,230,57,0.3);
+            color: var(--green);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px;
+            border-radius: 50px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.25s;
+            box-sizing: border-box;
+        }
+
+        .plan-btn-link:hover {
+            background: linear-gradient(135deg, rgba(123,63,160,0.4), rgba(62,230,57,0.2));
+            border-color: var(--green);
+            box-shadow: 0 4px 16px rgba(62,230,57,0.15);
+        }
+
         /* Heroes / Special cards */
         .special-card {
             background: var(--surface);
@@ -787,7 +812,22 @@
     <div id="planes" class="section">
         <div class="section-header">
             <h2 class="section-title">Planes & Ofertas Especiales</h2>
-            <p class="section-desc">Encuentra la membresía ideal para ti. Sin contrato ni débito automático.</p>
+            <p class="section-desc">Tenemos el plan perfecto para ti. Contáctanos para conocer nuestras tarifas.</p>
+        </div>
+
+        <!-- CTA Banner -->
+        <div style="background:linear-gradient(135deg,rgba(123,63,160,0.18),rgba(62,230,57,0.08)); border:1px solid rgba(62,230,57,0.25); border-radius:20px; padding:28px 28px 22px; margin-bottom:28px; text-align:center;">
+            <div style="font-size:1.7rem; margin-bottom:10px;">💬</div>
+            <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:2px; color:#fff; margin-bottom:8px;">¿Interesado en unirte?</h3>
+            <p style="font-size:0.88rem; color:var(--muted); margin-bottom:20px; max-width:420px; margin-left:auto; margin-right:auto; line-height:1.6;">Escríbenos o llámanos y te damos todos los detalles de nuestros planes. Sin compromiso, sin contrato, sin débito automático.</p>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20conocer%20sus%20planes%20y%20ofertas%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,#25D366,#128C7E); color:#fff; font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.82rem; letter-spacing:1px; text-transform:uppercase; padding:11px 22px; border-radius:50px; text-decoration:none; box-shadow:0 4px 18px rgba(37,211,102,0.3);">
+                    <span>📲</span> WhatsApp
+                </a>
+                <a href="tel:7874664774" style="display:inline-flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border-green); color:var(--green); font-family:'DM Sans',sans-serif; font-weight:700; font-size:0.82rem; letter-spacing:1px; text-transform:uppercase; padding:11px 22px; border-radius:50px; text-decoration:none;">
+                    <span>📞</span> Llamar
+                </a>
+            </div>
         </div>
 
         <!-- Individuales -->
@@ -795,40 +835,37 @@
         <div class="plans-grid">
             <div class="plan-card">
                 <div class="plan-name">1 Mes</div>
-                <div class="plan-price">$45<small>.00</small></div>
                 <ul class="plan-features">
                     <li>Acceso por 30 días</li>
+                    <li>Sin contrato</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20de%201%20mes%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
             <div class="plan-card">
                 <div class="plan-name">3 Meses</div>
-                <div class="plan-price">$114<small>.00</small></div>
                 <ul class="plan-features">
                     <li>Acceso por 90 días</li>
-                    <li>Ahorras $21</li>
+                    <li>Precio especial</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20de%203%20meses%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
             <div class="plan-card featured">
                 <span class="plan-badge">Popular</span>
                 <div class="plan-name">6 Meses</div>
-                <div class="plan-price">$210<small>.00</small></div>
                 <ul class="plan-features">
                     <li>Acceso por 180 días</li>
-                    <li>Ahorras $60</li>
+                    <li>Mejor precio por mes</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20de%206%20meses%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
             <div class="plan-card featured">
                 <span class="plan-badge">Mejor valor</span>
                 <div class="plan-name">1 Año</div>
-                <div class="plan-price">$360<small>.00</small></div>
                 <ul class="plan-features">
                     <li>Acceso por 365 días</li>
-                    <li>Ahorras $180</li>
+                    <li>Máximo ahorro</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20anual%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
         </div>
 
@@ -838,9 +875,11 @@
             <div class="special-card-header">
                 <div>
                     <div class="special-card-title">🎖️ Homenaje a Nuestros Héroes</div>
-                    <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;">Verificación requerida al inscribirse</div>
+                    <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;">Tarifa especial · Verificación requerida al inscribirse</div>
                 </div>
-                <div class="special-price-tag">$35<span style="font-size:1rem; color:var(--muted); font-family:'DM Sans',sans-serif;">/mes</span></div>
+                <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(62,230,57,0.1); border:1px solid var(--border-green); padding:6px 14px; border-radius:50px;">
+                    <span style="color:var(--green); font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;">Precio especial</span>
+                </div>
             </div>
             <div class="tags-row">
                 <span class="tag">👮 Policías</span>
@@ -853,7 +892,7 @@
                 <span class="tag">👨‍⚕️ Doctores</span>
                 <span class="tag">👴 Seniors 65+</span>
             </div>
-            <button class="plan-btn" style="max-width:240px;">Seleccionar</button>
+            <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20especial%20de%20h%C3%A9roes%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link" style="max-width:260px;">Consultar mi tarifa →</a>
         </div>
 
         <!-- Estudiantil -->
@@ -864,9 +903,11 @@
                     <div class="special-card-title">🎓 Membresía Estudiantil</div>
                     <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;">Matrícula del semestre en curso requerida</div>
                 </div>
-                <div class="special-price-tag">$23<span style="font-size:1rem; color:var(--muted); font-family:'DM Sans',sans-serif;">/mes</span></div>
+                <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(62,230,57,0.1); border:1px solid var(--border-green); padding:6px 14px; border-radius:50px;">
+                    <span style="color:var(--green); font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;">Precio especial</span>
+                </div>
             </div>
-            <button class="plan-btn" style="max-width:240px;">Seleccionar</button>
+            <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20la%20membres%C3%ADa%20estudiantil%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link" style="max-width:260px;">Consultar mi tarifa →</a>
         </div>
 
         <!-- Grupales -->
@@ -874,20 +915,20 @@
         <div class="plans-grid">
             <div class="plan-card">
                 <div class="plan-name">2 Personas</div>
-                <div class="plan-price">$40<small>/c/u mes</small></div>
                 <ul class="plan-features">
-                    <li>Total: $80/mes</li>
+                    <li>Descuento por pareja</li>
+                    <li>Mismo precio, más motivación</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20una%20membres%C3%ADa%20grupal%20para%202%20personas%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
             <div class="plan-card featured">
                 <span class="plan-badge">Mejor precio</span>
                 <div class="plan-name">3 Personas</div>
-                <div class="plan-price">$35<small>/c/u mes</small></div>
                 <ul class="plan-features">
                     <li>Mejor precio por persona</li>
+                    <li>Entrena en equipo</li>
                 </ul>
-                <button class="plan-btn">Seleccionar</button>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20una%20membres%C3%ADa%20grupal%20para%203%20personas%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
         </div>
 
@@ -896,19 +937,23 @@
         <div class="plans-grid">
             <div class="plan-card">
                 <div class="plan-name">Day Pass</div>
-                <div class="plan-price">$8<small>.97</small></div>
-                <button class="plan-btn">Seleccionar</button>
+                <ul class="plan-features">
+                    <li>Acceso por 1 día completo</li>
+                </ul>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20un%20Day%20Pass%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
             <div class="plan-card">
                 <div class="plan-name">Week Pass</div>
-                <div class="plan-price">$23<small>.00</small></div>
-                <button class="plan-btn">Seleccionar</button>
+                <ul class="plan-features">
+                    <li>Acceso por 7 días</li>
+                </ul>
+                <a href="https://wa.me/17874664774?text=Hola%2C%20me%20interesa%20un%20Week%20Pass%20en%20Quality%20Training%20%F0%9F%8F%8B%EF%B8%8F" target="_blank" class="plan-btn-link">Preguntar precio →</a>
             </div>
         </div>
 
         <div class="notice-bar">
             <span>ℹ️</span>
-            <span>Precios <strong>NO</strong> incluyen IVU &nbsp;·&nbsp; Cuota anual: <strong>$30.00</strong> &nbsp;·&nbsp; Sin contrato ni débito automático</span>
+            <span>Sin contrato ni débito automático &nbsp;·&nbsp; Aplica cuota anual de registro &nbsp;·&nbsp; Preguntar por disponibilidad y términos</span>
         </div>
     </div>
 
